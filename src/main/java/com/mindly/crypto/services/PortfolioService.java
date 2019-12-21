@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,6 +19,11 @@ public class PortfolioService {
 
     @Autowired
     private PortfolioRepository portfolioRepository;
+
+    public void addNewCrypto(Portfolio portfolio) throws IOException {
+        ApiAccess api = new ApiAccess();
+        portfolio.setValueEuro(BigDecimal.valueOf(portfolio.getAmount() * api.convertToEur(portfolio.getCurrency())));
+    }
 
     public void delete(int id) {
         portfolioRepository.deleteById(id);

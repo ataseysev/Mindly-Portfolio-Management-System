@@ -1,7 +1,6 @@
 package com.mindly.crypto.controllers;
 
 
-import com.mindly.crypto.services.ApiAccess;
 import com.mindly.crypto.entities.Portfolio;
 import com.mindly.crypto.repositories.PortfolioRepository;
 import com.mindly.crypto.services.PortfolioService;
@@ -10,12 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-
 
 @Controller
 @RequestMapping("/")
-public class PortfolioController {
+public class PortfolioController implements org.springframework.boot.web.servlet.error.ErrorController{
 
     @Autowired
     PortfolioRepository portfolioRepository;
@@ -36,8 +33,7 @@ public class PortfolioController {
 
     @PostMapping("/save")
     public String createPortfolio(Portfolio portfolio) throws Exception {
-        ApiAccess api = new ApiAccess();
-        portfolio.setValueEuro(BigDecimal.valueOf(portfolio.getAmount() * api.convertToEur(portfolio.getCurrency())));
+        portfolioService.addNewCrypto(portfolio);
         portfolioRepository.save(portfolio);
         return "redirect:/";
     }
@@ -46,6 +42,16 @@ public class PortfolioController {
     public String deletePortfolio(@PathVariable(name = "id") Integer id) {
         portfolioService.delete(id);
         return "redirect:/";
+    }
+
+    @RequestMapping("/error")
+    public String handleError() {
+        return "error";
+    }
+
+    @Override
+    public String getErrorPath() {
+        return "/error";
     }
 }
 
