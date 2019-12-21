@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layouts :: header"></head>
+
+<body style="background-color: rgb(2,2,31)">
+
+<nav th:replace="layouts :: navbar"></nav>
+
+<div class="container">
+
+    <form action="/save" th:object="${portfolio}" method="POST">
+        <table style="background-color: rgba(228,255,252,0.78)" class="table table-striped table-dark filter-table">
+            <tr style="background-color: #f4fcff">
+                <th>
+                    <select class="form-control form-control-sm" id="currency" name="currency"
+                            th:field="${portfolio.currency}">
+                        <option value="">--Select currency--</option>
+                        <option value="Bitcoin">Bitcoin</option>
+                        <option value="Ethereum">Ethereum</option>
+                        <option value="Ripple">Ripple</option>
+                    </select>
+                </th>
+
+                <th>
+                    <input class="form-control form-control-sm" id="amount" name="amount" placeholder="Amount"
+                           step="any" th:field="${portfolio.amount}" type="number">
+                </th>
+
+                <th>
+                    <input class="form-control form-control-sm" id="dateOfPurchase" name="dateOfPurchase"
+                           th:field="${portfolio.dateOfPurchase}" type="text">
+                </th>
+
+                <th>
+                    <input class="form-control form-control-sm" id="walletLocation" name="walletLocation"
+                           placeholder="Wallet location"
+                           th:field="${portfolio.walletLocation}" type="text">
+                </th>
+
+                <th>
+                    <button style="background-color: #79c0ff" type="submit">Save Currency</button>
+                </th>
+            </tr>
+        </table>
+
+
+    </form>
+</div>
+
+<div class="container">
+    <table class="table table-bordered table-striped">
+        <thead style="background-color: #f4fcff">
+        <tr>
+            <th scope="row">Cryptocurrency</th>
+            <th scope="row">Amount</th>
+            <th scope="row">Date of purchase</th>
+            <th scope="row">Wallet location</th>
+            <th scope="row">Current value(EUR)</th>
+            <th scope="row">Option</th>
+        </tr>
+        </thead>
+<!--THIS ERROR IS JUST ABOUT INTELLIJ/HTML CONFIGURATION. I AM USING GETTER AND SETTER ANNOTATIONS(LOMBOK) IN PORTFOLIO CLASS SO,IT
+CAUSES THIS ERROR LOOKING BUT IT DOES NOT HARM THE CODE AND WHOLE PROJECT-->
+        <tbody style="background-color: #5780a3">
+        <tr th:each="aPortfolio : ${portfoliosList}">
+            <td th:text="${aPortfolio.currency}"></td>
+            <td th:text="${aPortfolio.amount}"></td>
+            <td th:text="${aPortfolio.dateOfPurchase}"></td>
+            <td th:text="${aPortfolio.walletLocation}"></td>
+            <td th:text="${aPortfolio.valueEuro}"></td>
+            <td>
+                <a th:href="@{'/delete/' + ${aPortfolio.id}} " onclick="return confirm('I am sure to delete the item')"><b
+                        style="color:#f4fff3" ;>Delete</b></a>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+</div>
+
+</body>
+</html>
+
