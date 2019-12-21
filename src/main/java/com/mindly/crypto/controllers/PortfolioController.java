@@ -29,7 +29,7 @@ public class PortfolioController {
         model.addAttribute("portfolio", aPortfolio);
         Iterable<Portfolio> portfolios = portfolioRepository.findAll();
         model.addAttribute("portfoliosList", portfolios);
-        portfolioService.updateMarketPrice();
+        portfolioService.updateMarketValue();
         aPortfolio.setDateOfPurchase(portfolioService.presentDate());
         return "portfolio";
     }

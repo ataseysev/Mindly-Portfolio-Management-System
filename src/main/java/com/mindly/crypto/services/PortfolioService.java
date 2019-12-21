@@ -23,8 +23,7 @@ public class PortfolioService {
         portfolioRepository.deleteById(id);
     }
 
-
-    public void updateMarketPrice() throws Exception {
+    public void updateMarketValue() throws Exception {
         ApiAccess apiAccess = new ApiAccess();
 
         for (Portfolio portfolio : portfolioRepository.findAll()) {
